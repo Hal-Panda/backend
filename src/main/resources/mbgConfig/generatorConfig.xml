@@ -57,7 +57,7 @@
 
 
         <!--指定数据库表-->
-        <table tableName="account" domainObjectName="account">
+        <table tableName="goods" domainObjectName="goods">
 
             <!--<columnOverride column="COMMIT_TIME" jdbcType="DATE" javaType="java.lang.Date"/>
             <columnOverride column="MODIFY_TIME" jdbcType="DATE" javaType="java.lang.Date"/>-->
