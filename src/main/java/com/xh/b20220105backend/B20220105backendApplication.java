@@ -10,5 +10,4 @@ public class B20220105backendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(B20220105backendApplication.class, args);
 	}
-
 }

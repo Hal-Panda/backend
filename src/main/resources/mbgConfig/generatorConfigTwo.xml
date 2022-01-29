@@ -1,0 +1,75 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<!DOCTYPE generatorConfiguration-->
+<!--        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"-->
+<!--        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">-->
+
+<!--<generatorConfiguration>-->
+<!--    &lt;!&ndash; flat:该模型为每一张表只生成一个实体类 &ndash;&gt;-->
+<!--    <context id="mybatisContext" targetRuntime="MyBatis3"  defaultModelType="flat">-->
+<!--        &lt;!&ndash; 给Java模型生成equals和hashcode方法 &ndash;&gt;-->
+<!--        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />-->
+<!--        &lt;!&ndash; 为生成的Java模型类添加序列化接口，并生成serialVersionUID字段 &ndash;&gt;-->
+<!--        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />-->
+<!--        &lt;!&ndash; 这个插件用来在XXXExample类中生成大小写敏感的LIKE方法&ndash;&gt;-->
+<!--        <plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin" />-->
+<!--        <commentGenerator>-->
+<!--            &lt;!&ndash; 阻止生成注释 &ndash;&gt;-->
+<!--            <property name="suppressAllComments" value="true"/>-->
+<!--            &lt;!&ndash; 阻止生成的注释包含时间戳 &ndash;&gt;-->
+<!--            <property name="suppressDate" value="true"/>-->
+<!--        </commentGenerator>-->
+<!--        &lt;!&ndash;  jdbc连接 &ndash;&gt;-->
+<!--        <jdbcConnection-->
+<!--                driverClass="com.mysql.cj.jdbc.Driver"-->
+<!--                connectionURL="jdbc:mysql://localhost:3306/shopclien?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai"-->
+<!--                userId="root"-->
+<!--                password="123456">-->
+<!--        </jdbcConnection>-->
+
+<!--        <javaTypeResolver>-->
+<!--            &lt;!&ndash; 是否强制DECIMAL和NUMERIC类型的字段转换为Java类型的java.math.BigDecimal &ndash;&gt;-->
+<!--            <property name="forceBigDecimals" value="false" />-->
+<!--        </javaTypeResolver>-->
+
+<!--        &lt;!&ndash; 生成数据库表的实体类pojo &ndash;&gt;-->
+<!--        <javaModelGenerator-->
+<!--                targetPackage="com.xh.b20220105backend.entity"-->
+<!--                targetProject="./src/main/java">-->
+<!--            &lt;!&ndash; enableSubPackages:如果true会根据catalog和schema来生成子包。如果false就会直接用targetPackage属性 &ndash;&gt;-->
+<!--            <property name="enableSubPackages" value="false" />-->
+<!--            &lt;!&ndash; 自动去掉不必要的空格 &ndash;&gt;-->
+<!--            <property name="trimStrings" value="true" />-->
+<!--        </javaModelGenerator>-->
+
+<!--        &lt;!&ndash; *Mapper.xml&ndash;&gt;-->
+<!--        <sqlMapGenerator-->
+<!--                targetPackage="mybatis"-->
+<!--                targetProject="./src/main/resources">-->
+<!--            <property name="enableSubPackages" value="false" />-->
+<!--        </sqlMapGenerator>-->
+
+<!--        &lt;!&ndash; *Mapper.java 也就是接口dao &ndash;&gt;-->
+<!--        <javaClientGenerator type="XMLMAPPER"-->
+<!--                             targetPackage="com.xh.b20220105backend.mapper"-->
+<!--                             targetProject="./src/main/java">-->
+<!--            <property name="enableSubPackages" value="false" />-->
+<!--        </javaClientGenerator>-->
+
+
+<!--        &lt;!&ndash;指定数据库表&ndash;&gt;-->
+<!--&lt;!&ndash;        <table tableName="categories" domainObjectName="categories">&ndash;&gt;-->
+<!--&lt;!&ndash;            <columnOverride column="COMMIT_TIME" jdbcType="DATE" javaType="java.lang.Date"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <columnOverride column="MODIFY_TIME" jdbcType="DATE" javaType="java.lang.Date"/>&ndash;&gt;-->
+<!--&lt;!&ndash;        </table>&ndash;&gt;-->
+<!--        <table tableName="clien_user" domainObjectName="clienUser"> </table>-->
+<!--        <table tableName="goods_info" domainObjectName="goodsInfo"> </table>-->
+<!--        <table tableName="goods_node" domainObjectName="goodsNode"> </table>-->
+<!--        <table tableName="sell_goods" domainObjectName="sellGoods"> </table>-->
+<!--        <table tableName="good_order" domainObjectName="goodOrder"> </table>-->
+<!--        <table tableName="good_img" domainObjectName="goodImg"> </table>-->
+<!--        <table tableName="classify" domainObjectName="classify"> </table>-->
+<!--        <table tableName="good_comment" domainObjectName="goodComment"> </table>-->
+
+<!--    </context>-->
+
+<!--</generatorConfiguration>-->

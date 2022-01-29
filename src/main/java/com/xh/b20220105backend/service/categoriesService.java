@@ -2,6 +2,6 @@
 //
 //import java.util.List;
 //
-//public interface goodService {
-//    List<goods> showAll();
+//public interface categoriesService {
+//    List<categories> showAll();
 //}
