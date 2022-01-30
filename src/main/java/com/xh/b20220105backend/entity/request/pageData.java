@@ -7,4 +7,6 @@ public class pageData {
     private Integer pageNum;
     private Integer pageSize;
     private String orderKeys;
+    private String searchKeys;
+    private String classifyCode;
 }

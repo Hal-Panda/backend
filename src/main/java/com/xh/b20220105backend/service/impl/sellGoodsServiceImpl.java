@@ -20,12 +20,23 @@ public class sellGoodsServiceImpl implements sellGoodsService {
 
     @Override
     public List<sellGoods> selectAllByPage(pageData pageData) {
-        PageHelper.startPage(pageData.getPageNum(),pageData.getPageSize());
+        PageHelper.startPage(pageData.getPageNum(), pageData.getPageSize());
         sellGoodsExample sellGoodsExample = new sellGoodsExample();
+        if (!pageData.getClassifyCode().equals("") && !pageData.getClassifyCode().isEmpty()) {
+            String code = pageData.getClassifyCode();
+            String[] split = code.split("-");
+            sellGoodsExample.createCriteria().andMaingoodbigclassfiyEqualTo(Integer.valueOf(split[0])).andMaingoodsmallclassifyEqualTo(Integer.valueOf(split[1]));
+        }
+        sellGoodsExample.createCriteria().andMaingoodtitleLike("%" + pageData.getSearchKeys() + "%");
         sellGoodsExample.setOrderByClause(pageData.getOrderKeys());
-//        sellGoodsExample.setDistinct(true);
         List<sellGoods> sellGoods = sellGoodsMapper.selectByExample(sellGoodsExample);
-        PageInfo<sellGoods> info=new PageInfo<>(sellGoods);
+        PageInfo<sellGoods> info = new PageInfo<>(sellGoods);
         return info.getList();
+    }
+
+    @Override
+    public sellGoods selectOneById(Integer id) {
+        sellGoods sellGood = sellGoodsMapper.selectByPrimaryKey(id);
+        return sellGood;
     }
 }

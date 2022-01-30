@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface sellGoodsService {
     List<sellGoods> selectAllByPage(pageData pageData);
+
+    sellGoods selectOneById(Integer id);
 }
