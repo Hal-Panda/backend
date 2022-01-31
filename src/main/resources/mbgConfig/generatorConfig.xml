@@ -52,7 +52,7 @@
         <table tableName="good_comment" domainObjectName="goodComment">
             <generatedKey column="id" sqlStatement="Mysql"/>
         </table>
-        <table tableName="show_img" domainObjectName="showImg">
+        <table tableName="good_describe_img" domainObjectName="goodDescribeImg">
             <generatedKey column="id" sqlStatement="Mysql"/>
         </table>
     </context>

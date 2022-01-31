@@ -2,8 +2,6 @@ package com.xh.b20220105backend.service.impl;
 
 import com.xh.b20220105backend.entity.goodsInfo;
 import com.xh.b20220105backend.mapper.goodsInfoMapper;
-import com.xh.b20220105backend.mapper.sellGoodsMapper;
-import com.xh.b20220105backend.mapper.showImgMapper;
 import com.xh.b20220105backend.service.goodsInfoService;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +13,7 @@ public class goodsInfoServiceImpl implements goodsInfoService {
     private goodsInfoMapper goodsInfoMapper;
 
 
-    @Resource
-    private showImgMapper showImgMapper;
+
 
 
     @Override

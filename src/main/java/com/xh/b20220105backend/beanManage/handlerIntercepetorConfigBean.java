@@ -18,7 +18,7 @@ public class handlerIntercepetorConfigBean implements WebMvcConfigurer {
                 .excludePathPatterns("/**/open/**")
                 .excludePathPatterns("/categories/**")
                 .excludePathPatterns("/classify/**")
-                .excludePathPatterns("/show/mainGood/**");
+                .excludePathPatterns("/show/**");
 
 //        registry.addInterceptor(handlerInterceptorrConfig).addPathPatterns("/no");
 
