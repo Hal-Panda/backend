@@ -23,4 +23,31 @@ public class goodsNodeServiceImpl implements goodsNodeService {
 
         return goodsNodes;
     }
+
+    @Override
+    public Integer selectNodeIdByGoodId(Integer gooid) {
+        goodsNodeExample goodsNodeExample = new goodsNodeExample();
+        goodsNodeExample.createCriteria().andTodogoodidEqualTo(gooid);
+        List<goodsNode> goodsNodes = goodsNodeMapper.selectByExample(goodsNodeExample);
+        if (goodsNodes.size()>0){
+            return goodsNodes.get(0).getNodeid();
+        }
+        else {
+            return 0;
+        }
+
+    }
+
+    @Override
+    public Integer isOverNodeId(Integer nodeId) {
+        Integer overNodeId=nodeId;
+        goodsNodeExample goodsNodeExample = new goodsNodeExample();
+        goodsNodeExample.createCriteria().andNextnodeidEqualTo(nodeId);
+        List<goodsNode> goodsNodes = goodsNodeMapper.selectByExample(goodsNodeExample);
+        if (goodsNodes.size()>0){
+            Integer nodeid = goodsNodes.get(0).getNodeid();
+             overNodeId = isOverNodeId(nodeid);
+        }
+        return overNodeId;
+    }
 }

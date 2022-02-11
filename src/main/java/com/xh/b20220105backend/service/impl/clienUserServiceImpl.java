@@ -20,7 +20,6 @@ import java.util.List;
 @Service
 @Slf4j
 public class clienUserServiceImpl implements clienUserService {
-    private final Integer duringTime = 600;
 
     @Resource
     private clienUserMapper clienUserMapper;
@@ -42,7 +41,10 @@ public class clienUserServiceImpl implements clienUserService {
             HashMap info = new HashMap();
             info.put("userId", userId);
             info.put("loginTime", new SimpleDateFormat("yyyy-MM-dd@HH:mm:ss").format(new Date()));
-            String token = JwtUtil.createToken(duringTime, info);
+            info.put("userName", clienUsers.get(0).getUsername());
+            info.put("userDescribe", clienUsers.get(0).getUserdescribe());
+            info.put("userIcon", clienUsers.get(0).getUsericon());
+            String token = JwtUtil.createToken(info);
             return resultMapUtil.backResultMap("登录成功", token, 200);
         } catch (loginException e) {
             log.warn(e.getMessage());
@@ -50,6 +52,35 @@ public class clienUserServiceImpl implements clienUserService {
         } catch (Exception e) {
             log.warn(e.getMessage());
             return resultMapUtil.backResultMap(e.getMessage(), "", -201);
+        }
+    }
+
+    @Override
+    public clienUser getBaseUserInfo(String token) {
+        String userId = JwtUtil.getTokenStringInfo(token, "userId");
+        String userName = JwtUtil.getTokenStringInfo(token, "userName");
+        String userDescribe = JwtUtil.getTokenStringInfo(token, "userDescribe");
+        String userIcon = JwtUtil.getTokenStringInfo(token, "userIcon");
+        clienUser clienUser = new clienUser();
+        clienUser.setUserid(userId);
+        clienUser.setUsername(userName);
+        clienUser.setUserdescribe(userDescribe);
+        clienUser.setUsericon(userIcon);
+
+        return clienUser;
+    }
+
+    @Override
+    public clienUser selectAllUserInfo(String token) {
+        String userId = JwtUtil.getTokenStringInfo(token, "userId");
+        clienUserExample clienExample = new clienUserExample();
+        clienExample.createCriteria().andUseridEqualTo(userId);
+        List<clienUser> clienUsers = clienUserMapper.selectByExample(clienExample);
+        if (!clienUsers.isEmpty()) {
+            return clienUsers.get(0);
+        } else {
+            log.warn("selectAllUserInfo：查询用户为空");
+            return null;
         }
     }
 }

@@ -9,4 +9,8 @@ import java.util.List;
 
 public interface goodsNodeService {
     List<goodsNode> selectNodeList(Integer nodeId);
+
+    Integer selectNodeIdByGoodId(Integer gooid);
+
+    Integer isOverNodeId(Integer nodeId);
 }

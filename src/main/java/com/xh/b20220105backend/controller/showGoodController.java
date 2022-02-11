@@ -80,4 +80,22 @@ public class showGoodController {
         resultMap resultMap = resultMapUtil.backResultMap("查询成功", goodDescribeImgs, 100);
         return resultMap;
     }
+
+    @RequestMapping("getSellGoodByGooid")
+    public resultMap getSellGoodByGooid(Integer passId){
+        Integer nodeid = goodsNodeService.selectNodeIdByGoodId(passId);
+        if (nodeid==0){
+            Integer id = sellGoodsService.selectSellGoodIdByGoodId(passId);
+            if (id==0){
+                return resultMapUtil.backResultMap("出错或该货架已被删除", "0", 100);
+            }
+            return resultMapUtil.backResultMap("成功！", id, 100);
+        }
+        Integer overNodeId = goodsNodeService.isOverNodeId(nodeid);
+        Integer sellGoodId = sellGoodsService.selectSellGoodIdByNodeId(overNodeId);
+        if (sellGoodId==0){
+            return resultMapUtil.backResultMap("出错或该货架已被删除", "0", 100);
+        }
+        return resultMapUtil.backResultMap("成功", sellGoodId, 100);
+    }
 }

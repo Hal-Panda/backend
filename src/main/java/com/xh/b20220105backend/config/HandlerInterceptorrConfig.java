@@ -11,9 +11,13 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xh.b20220105backend.entity.response.resultMap;
 import com.xh.b20220105backend.exception.loginException;
+import com.xh.b20220105backend.util.JwtUtil;
 import com.xh.b20220105backend.util.jsonUtil;
 import com.xh.b20220105backend.util.resultMapUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @Component
 public class HandlerInterceptorrConfig implements HandlerInterceptor {
-    static String keys = "oahgnoix@666";
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("进入了");
@@ -37,8 +40,7 @@ public class HandlerInterceptorrConfig implements HandlerInterceptor {
             if (token.equals("null")) {
                 throw new loginException("未登录");
             }
-            JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(keys)).build();
-            jwtVerifier.verify(token);
+            JwtUtil.verifyToken(token);
             return true;
         } catch (loginException e) {
             str = jsonUtil.toJson(resultMapUtil.backResultMap(e.getMessage(), "", -100));

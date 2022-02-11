@@ -9,4 +9,13 @@ public interface sellGoodsService {
     List<sellGoods> selectAllByPage(pageData pageData);
 
     sellGoods selectOneById(Integer id);
+
+    Integer reduceLikeCount(Integer sellGoodId);
+
+    Integer addLikeCount(Integer sellGoodId);
+
+    Integer selectSellGoodIdByNodeId(Integer nodeId);
+
+    Integer selectSellGoodIdByGoodId(Integer goodid);
+
 }

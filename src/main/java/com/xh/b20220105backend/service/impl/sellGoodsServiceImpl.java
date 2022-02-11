@@ -39,4 +39,58 @@ public class sellGoodsServiceImpl implements sellGoodsService {
         sellGoods sellGood = sellGoodsMapper.selectByPrimaryKey(id);
         return sellGood;
     }
+
+    @Override
+    public Integer reduceLikeCount(Integer sellGoodId) {
+        sellGoodsExample sellGoodsExample = new sellGoodsExample();
+        sellGoodsExample.createCriteria().andSellgoodsidEqualTo(sellGoodId);
+        List<sellGoods> sellGoodsList = sellGoodsMapper.selectByExample(sellGoodsExample);
+        if (!sellGoodsList.isEmpty()) {
+            sellGoods sellGoods = sellGoodsList.get(0);
+            Integer likenumber = sellGoods.getLikenumber();
+            sellGoods.setLikenumber(likenumber-1);
+            int i = sellGoodsMapper.updateByExample(sellGoods, sellGoodsExample);
+            return i;
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    public Integer addLikeCount(Integer sellGoodId) {
+        sellGoodsExample sellGoodsExample = new sellGoodsExample();
+        sellGoodsExample.createCriteria().andSellgoodsidEqualTo(sellGoodId);
+        List<sellGoods> sellGoodsList = sellGoodsMapper.selectByExample(sellGoodsExample);
+        if (!sellGoodsList.isEmpty()) {
+            sellGoods sellGoods = sellGoodsList.get(0);
+            Integer likenumber = sellGoods.getLikenumber();
+            sellGoods.setLikenumber(likenumber+1);
+            int i = sellGoodsMapper.updateByExample(sellGoods, sellGoodsExample);
+            return i;
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    public Integer selectSellGoodIdByNodeId(Integer nodeId) {
+        sellGoodsExample sellGoodsExample = new sellGoodsExample();
+        sellGoodsExample.createCriteria().andNodeoneidEqualTo(nodeId);
+        List<sellGoods> sellGoods = sellGoodsMapper.selectByExample(sellGoodsExample);
+        if (sellGoods.size()>0){
+            return sellGoods.get(0).getSellgoodsid();
+        }
+        return 0;
+    }
+
+    @Override
+    public Integer selectSellGoodIdByGoodId(Integer goodid) {
+        sellGoodsExample sellGoodsExample = new sellGoodsExample();
+        sellGoodsExample.createCriteria().andMaingoodidEqualTo(goodid);
+        List<sellGoods> sellGoods = sellGoodsMapper.selectByExample(sellGoodsExample);
+        if (sellGoods.size()>0){
+            return sellGoods.get(0).getSellgoodsid();
+        }
+        return 0;
+    }
 }

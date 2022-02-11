@@ -7,11 +7,12 @@ import com.xh.b20220105backend.service.goodDescribeImgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class goodDescribeImgServiceImpl implements goodDescribeImgService {
-    @Autowired
+    @Resource
     private goodDescribeImgMapper goodDescribeImgMapper;
     @Override
     public List<goodDescribeImg> getGoodDescribeImgs(String goodDescribeImgId) {
