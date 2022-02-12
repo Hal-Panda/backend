@@ -1,8 +1,10 @@
 package com.xh.b20220105backend.service.impl;
 
 import com.xh.b20220105backend.entity.clienUser;
+import com.xh.b20220105backend.entity.clienUserExample;
 import com.xh.b20220105backend.entity.packetInfo;
 import com.xh.b20220105backend.entity.packetInfoExample;
+import com.xh.b20220105backend.entity.request.passwordData;
 import com.xh.b20220105backend.mapper.packetInfoMapper;
 import com.xh.b20220105backend.service.clienUserService;
 import com.xh.b20220105backend.service.packetInfoService;
@@ -88,4 +90,71 @@ public class packetInfoServiceImpl implements packetInfoService {
             }
         }
     }
+
+    @Override
+    public Integer changePacketPassword(String token, passwordData passwordData) {
+        clienUser clienUser = clienUserService.selectAllUserInfo(token);
+        if (clienUser==null) {
+            return -4;
+        }
+        Integer packetid = clienUser.getPacketid();
+        packetInfo packetInfo = selectPacketAllInfoByPid(packetid);
+        if (packetInfo==null){
+            return -3;
+        }
+        if (!packetInfo.getPsw().equals(passwordData.getMetaPsw())){
+            return -2;
+        }
+        if (passwordData.getNewPsw().length()!=6){
+            return -1;
+        }
+        packetInfo.setPsw(passwordData.getNewPsw());
+        return packetInfoMapper.updateByPrimaryKey(packetInfo);
+    }
+
+    @Override
+    public packetInfo selectPacketAllInfoByPid(Integer packetId) {
+        packetInfoExample packetInfoExample = new packetInfoExample();
+        packetInfoExample.createCriteria().andPacketidEqualTo(packetId);
+        List<packetInfo> packetInfos = packetInfoMapper.selectByExample(packetInfoExample);
+        if (packetInfos.isEmpty()){
+            log.warn("selectPacketAllInfoByPid：钱包为空");
+            return null;
+        }
+        return packetInfos.get(0);
+    }
+
+    @Override
+    public BigDecimal checkMoney(String token) {
+        clienUser clienUser = clienUserService.selectAllUserInfo(token);
+        if (clienUser==null){
+            return null;
+        }
+        Integer packetid = clienUser.getPacketid();
+        packetInfo packetInfo = selectPacketAllInfoByPid(packetid);
+        if (packetInfo==null){
+            return null;
+        }
+        return packetInfo.getMoney();
+    }
+
+    @Override
+    public Integer checkPassword(String token,String psw) {
+        clienUser clienUser = clienUserService.selectAllUserInfo(token);
+        if (clienUser==null){
+            return -3;
+        }
+        Integer packetid = clienUser.getPacketid();
+        packetInfo packetInfo = selectPacketAllInfoByPid(packetid);
+        if (packetInfo==null){
+            return -2;
+        }
+        String metaPsw = packetInfo.getPsw();
+        if (!metaPsw.equals(psw)){
+            return -1;
+        }
+        return 1;
+    }
+
+
 }

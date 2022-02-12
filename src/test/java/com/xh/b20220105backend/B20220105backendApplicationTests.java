@@ -114,6 +114,10 @@ class B20220105backendApplicationTests {
         }
 
     }
+    @Test
+    void dataTest(){
+        System.out.println(new Date("1997-07-07"));
+    }
 }
 
 

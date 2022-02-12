@@ -2,6 +2,8 @@ package com.xh.b20220105backend.service.impl;
 
 import com.xh.b20220105backend.entity.clienUser;
 import com.xh.b20220105backend.entity.clienUserExample;
+import com.xh.b20220105backend.entity.request.passwordData;
+import com.xh.b20220105backend.entity.request.userMainInfo;
 import com.xh.b20220105backend.entity.response.resultMap;
 import com.xh.b20220105backend.exception.loginException;
 import com.xh.b20220105backend.mapper.clienUserMapper;
@@ -30,7 +32,6 @@ public class clienUserServiceImpl implements clienUserService {
         clienUserExample clienUserExample = new clienUserExample();
         clienUserExample.createCriteria().andUseridEqualTo(userId);
         List<clienUser> clienUsers = clienUserMapper.selectByExample(clienUserExample);
-
         try {
             if (clienUsers.isEmpty()) {
                 throw new loginException("用户名不正确");
@@ -71,6 +72,19 @@ public class clienUserServiceImpl implements clienUserService {
     }
 
     @Override
+    public clienUser getMainUserInfo(String token) {
+        clienUser clienUser = selectAllUserInfo(token);
+        clienUser.setUserpassword(null);
+        clienUser.setBegaintime(null);
+        clienUser.setPacketid(null);
+        clienUser.setUsertel(null);
+        clienUser.setId(null);
+        clienUser.setUserid(null);
+        return clienUser;
+    }
+
+
+    @Override
     public clienUser selectAllUserInfo(String token) {
         String userId = JwtUtil.getTokenStringInfo(token, "userId");
         clienUserExample clienExample = new clienUserExample();
@@ -83,4 +97,40 @@ public class clienUserServiceImpl implements clienUserService {
             return null;
         }
     }
+
+    @Override
+    public Integer changeMainUserInfo(String token, userMainInfo usrMainInfo) {
+        clienUser clienUser = selectAllUserInfo(token);
+        if (clienUser!=null) {
+            clienUser.setUserrealname(usrMainInfo.getRealName());
+            clienUser.setUsername(usrMainInfo.getUserName());
+            clienUser.setSex(usrMainInfo.getSex());
+            clienUser.setBirthday(usrMainInfo.getBirthday());
+            clienUser.setUserdescribe(usrMainInfo.getDescribe());
+            return clienUserMapper.updateByPrimaryKey(clienUser);
+
+        } else {
+            log.warn("changeMainUserInfo：查询用户为空");
+            return -1;
+        }
+    }
+
+    @Override
+    public Integer changeUserPassword(String token, passwordData passwordData) {
+        clienUser clienUser = selectAllUserInfo(token);
+        if (clienUser==null) {
+            log.warn("changeUserPassword：查询用户为空");
+            return -3;
+        }
+        String userpassword = clienUser.getUserpassword();
+        if (!userpassword.equals(passwordData.getMetaPsw())) {
+            return -1;
+        }
+        if (passwordData.getNewPsw().length() < 6) {
+            return -2;
+        }
+        clienUser.setUserpassword(passwordData.getNewPsw());
+        return clienUserMapper.updateByPrimaryKey(clienUser);
+    }
+
 }
