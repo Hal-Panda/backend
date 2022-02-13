@@ -14,7 +14,13 @@ public interface packetInfoService {
 
     packetInfo selectPacketAllInfoByPid(Integer packetId);
 
+    packetInfo selectPacketAllInfoByid(Integer id);
+
     BigDecimal checkMoney(String token);
 
     Integer checkPassword(String token,String psw);
+
+    Integer createPacket(String password,String userId,Integer type);
+
+    Integer deletePacket(Integer id);
 }

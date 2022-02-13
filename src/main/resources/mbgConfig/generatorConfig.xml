@@ -36,9 +36,9 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.xh.b20220105backend.mapper"
                              targetProject="src\main\java"/>
 
-        <table tableName="clien_user" domainObjectName="clienUser">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+<!--        <table tableName="clien_user" domainObjectName="clienUser">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
 <!--        <table tableName="goods_info" domainObjectName="goodsInfo">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
 <!--        </table>-->
@@ -66,8 +66,8 @@
 <!--        <table tableName="goods_like_record" domainObjectName="goodsLikeRecord">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
 <!--        </table>-->
-<!--        <table tableName="packet_info" domainObjectName="packetInfo">-->
-<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
-<!--        </table>-->
+        <table tableName="packet_info" domainObjectName="packetInfo">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
     </context>
 </generatorConfiguration>

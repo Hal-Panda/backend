@@ -3,6 +3,7 @@ package com.xh.b20220105backend.service.impl;
 import com.xh.b20220105backend.entity.clienUser;
 import com.xh.b20220105backend.entity.clienUserExample;
 import com.xh.b20220105backend.entity.request.passwordData;
+import com.xh.b20220105backend.entity.request.registerData;
 import com.xh.b20220105backend.entity.request.userMainInfo;
 import com.xh.b20220105backend.entity.response.resultMap;
 import com.xh.b20220105backend.exception.loginException;
@@ -99,6 +100,18 @@ public class clienUserServiceImpl implements clienUserService {
     }
 
     @Override
+    public clienUser selectAllUserInfoByUserId(String userId) {
+        clienUserExample clienExample = new clienUserExample();
+        clienExample.createCriteria().andUseridEqualTo(userId);
+        List<clienUser> clienUsers = clienUserMapper.selectByExample(clienExample);
+        if (!clienUsers.isEmpty()) {
+            return clienUsers.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public Integer changeMainUserInfo(String token, userMainInfo usrMainInfo) {
         clienUser clienUser = selectAllUserInfo(token);
         if (clienUser!=null) {
@@ -132,5 +145,39 @@ public class clienUserServiceImpl implements clienUserService {
         clienUser.setUserpassword(passwordData.getNewPsw());
         return clienUserMapper.updateByPrimaryKey(clienUser);
     }
+
+    @Override
+    public Integer registerByAcount(registerData registerData,Integer packetId) {
+        clienUser newClienUser = new clienUser();
+        newClienUser.setUserid(registerData.getUserId());
+        newClienUser.setUsername(registerData.getUserName());
+        newClienUser.setUserpassword(registerData.getPassword());
+        newClienUser.setSex(1);
+        newClienUser.setBegaintime(new Date());
+        newClienUser.setUserstatus(1);
+        newClienUser.setUsericon("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg1.doubanio.com%2Fview%2Frichtext%2Flarge%2Fpublic%2Fp201891007.jpg&refer=http%3A%2F%2Fimg1.doubanio.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1647321115&t=d4a859fb5b1a9b51956f307d50c05da4");
+        newClienUser.setBirthday(new Date(Date.parse("1/1/2001")));
+        newClienUser.setPacketid(packetId);
+        return  clienUserMapper.insertSelective(newClienUser);
+    }
+
+    @Override
+    public Integer registerCheck(registerData registerData) {
+        clienUser clienUser = selectAllUserInfoByUserId(registerData.getUserId());
+        if (clienUser!=null){
+            return -1;
+        }
+        if (registerData.getUserId().length()<6||registerData.getUserId().length()>=30){
+            return -4;
+        }
+        if (registerData.getUserName().length()<1||registerData.getUserName().length()>=20){
+            return -3;
+        }
+        if (registerData.getPassword().length()<6||registerData.getPassword().length()>=20){
+            return -2;
+        }
+        return 1;
+    }
+
 
 }

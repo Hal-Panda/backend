@@ -4,6 +4,7 @@ import com.xh.b20220105backend.entity.clienUser;
 import com.xh.b20220105backend.entity.goodsLikeRecord;
 import com.xh.b20220105backend.entity.request.loginData;
 import com.xh.b20220105backend.entity.request.passwordData;
+import com.xh.b20220105backend.entity.request.registerData;
 import com.xh.b20220105backend.entity.request.userMainInfo;
 import com.xh.b20220105backend.entity.response.resultMap;
 import com.xh.b20220105backend.service.clienUserService;
@@ -176,6 +177,35 @@ public class clienUserCotroller {
         }
         else {
             return resultMapUtil.backResultMap("查询失败,稍后请重试", 0, 100);
+        }
+    }
+
+    @PostMapping("open/registerByAccout")
+    public resultMap registerByAccout(@RequestBody registerData registerData){
+        Integer checkFlat = clienUserService.registerCheck(registerData);
+        if (checkFlat==-1){
+            return resultMapUtil.backResultMap("账号已存在", 0, 100);
+        }
+        else if (checkFlat==-4){
+            return resultMapUtil.backResultMap("账号长度至少6位及以上,30位以下", 0, 100);
+        }
+        else if (checkFlat==-3){
+            return resultMapUtil.backResultMap("用户名长度不能为空或超过20位", 0, 100);
+        }
+        else if (checkFlat==-2){
+            return resultMapUtil.backResultMap("密码长度至少6位及以上,20位以下", 0, 100);
+        }
+        Integer packetId = packetInfoService.createPacket(registerData.getPassword(), registerData.getUserId(), 1);
+        if (packetId==0){
+            return resultMapUtil.backResultMap("创建失败，请重试", 0, 100);
+        }
+        Integer flat = clienUserService.registerByAcount(registerData, packetId);
+        if (flat==1){
+            return resultMapUtil.backResultMap("成功", 1, 100);
+        }
+        else {
+            packetInfoService.deletePacket(packetId);
+            return resultMapUtil.backResultMap("创建失败,请重试", 0, 100);
         }
     }
 

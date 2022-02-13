@@ -10,10 +10,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xh.b20220105backend.entity.goodOrder;
 import com.xh.b20220105backend.entity.goodOrderExample;
+import com.xh.b20220105backend.entity.packetInfo;
 import com.xh.b20220105backend.entity.request.shopCartData;
 import com.xh.b20220105backend.exception.loginException;
 import com.xh.b20220105backend.mapper.goodOrderMapper;
+import com.xh.b20220105backend.mapper.packetInfoMapper;
 import com.xh.b20220105backend.util.redisUtil;
+import org.assertj.core.util.DateUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -116,7 +119,24 @@ class B20220105backendApplicationTests {
     }
     @Test
     void dataTest(){
-        System.out.println(new Date("1997-07-07"));
+        System.out.println(
+                new Date(Date.parse("6/13/2018")));
+    }
+
+    @Resource
+    private packetInfoMapper packetInfoMapper;
+    @Test
+    void insertTest(){
+        packetInfo packetInfo = new packetInfo();
+        packetInfo.setPsw("1233");
+        int i = packetInfoMapper.insertSelective(packetInfo);
+        System.out.println(packetInfo.getId());
+    }
+
+    @Test
+    void stringText(){
+        String str="12345678";
+        System.out.println(str.substring(str.length() - 6));
     }
 }
 

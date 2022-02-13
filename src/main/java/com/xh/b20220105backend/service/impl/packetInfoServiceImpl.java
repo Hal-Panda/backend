@@ -35,7 +35,7 @@ public class packetInfoServiceImpl implements packetInfoService {
         }
         Integer packetid = clienUser.getPacketid();
         packetInfoExample packetExample = new packetInfoExample();
-        packetExample.createCriteria().andPacketidEqualTo(packetid);
+        packetExample.createCriteria().andIdEqualTo(packetid);
         List<packetInfo> packetInfos = packetInfoMapper.selectByExample(packetExample);
         if (packetInfos.isEmpty()){
             log.warn("checkPswOfClien:没有对应钱包，packetInfos为空");
@@ -62,7 +62,7 @@ public class packetInfoServiceImpl implements packetInfoService {
         }
         Integer packetid = clienUser.getPacketid();
         packetInfoExample packetExample = new packetInfoExample();
-        packetExample.createCriteria().andPacketidEqualTo(packetid);
+        packetExample.createCriteria().andIdEqualTo(packetid);
         List<packetInfo> packetInfos = packetInfoMapper.selectByExample(packetExample);
         if (packetInfos.isEmpty()){
             log.warn("reduceMoney:没有对应钱包，packetInfos为空");
@@ -97,8 +97,8 @@ public class packetInfoServiceImpl implements packetInfoService {
         if (clienUser==null) {
             return -4;
         }
-        Integer packetid = clienUser.getPacketid();
-        packetInfo packetInfo = selectPacketAllInfoByPid(packetid);
+        Integer id = clienUser.getPacketid();
+        packetInfo packetInfo = selectPacketAllInfoByid(id);
         if (packetInfo==null){
             return -3;
         }
@@ -115,13 +115,19 @@ public class packetInfoServiceImpl implements packetInfoService {
     @Override
     public packetInfo selectPacketAllInfoByPid(Integer packetId) {
         packetInfoExample packetInfoExample = new packetInfoExample();
-        packetInfoExample.createCriteria().andPacketidEqualTo(packetId);
+        packetInfoExample.createCriteria().andIdEqualTo(packetId);
         List<packetInfo> packetInfos = packetInfoMapper.selectByExample(packetInfoExample);
         if (packetInfos.isEmpty()){
             log.warn("selectPacketAllInfoByPid：钱包为空");
             return null;
         }
         return packetInfos.get(0);
+    }
+
+    @Override
+    public packetInfo selectPacketAllInfoByid(Integer id) {
+        packetInfo packetInfo = packetInfoMapper.selectByPrimaryKey(id);
+        return packetInfo;
     }
 
     @Override
@@ -154,6 +160,25 @@ public class packetInfoServiceImpl implements packetInfoService {
             return -1;
         }
         return 1;
+    }
+
+    @Override
+    public Integer createPacket(String password, String userId, Integer type) {
+        packetInfo packetInfo = new packetInfo();
+        packetInfo.setPsw(password.substring(password.length() - 6));
+        packetInfo.setBindid(userId);
+        packetInfo.setBindtype(type);
+        packetInfo.setMoney(new BigDecimal(0));
+        int i = packetInfoMapper.insertSelective(packetInfo);
+        if (i==1){
+            return packetInfo.getId();
+        }
+        return 0;
+    }
+
+    @Override
+    public Integer deletePacket(Integer id) {
+        return packetInfoMapper.deleteByPrimaryKey(id);
     }
 
 
